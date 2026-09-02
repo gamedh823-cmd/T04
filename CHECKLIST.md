@@ -1,0 +1,52 @@
+# T04 완주 체크리스트 (35개 조건)
+
+기준: `spec/criterion-registry.json` (전수 판정, 35개)
+
+### 공개 접근성 — public_access
+- [ ] C01 결과물·소스 URL이 계정 생성 없이 열린다
+- [ ] C02 로그인 없이 열린다
+- [ ] C29 인증 없이 열린다
+- [ ] C30 초대 없이 열린다
+- [ ] C31 비밀번호 없이 열린다
+- [ ] C32 OAuth 없이 열린다
+- [ ] C33 CAPTCHA 없이 열린다
+
+> 앱에 로그인/인증 레이어가 없어 배포만 하면 통과할 구조. 새 시크릿 창으로 직접 확인.
+
+### 실제 라이브 조회 — live_receipt_and_review / live_and_deterministic
+- [x] C03 비개인 공개 원천의 실제 동적 값을 조회할 수 있다 — Open-Meteo 라이브 연동 확인됨
+- [x] C04 값이 표시된다 — `reading-value`
+- [x] C05 단위가 표시된다 — `reading-unit`
+- [x] C06 출처가 표시된다 — `reading-source`
+- [x] C07 출처 시각이 표시된다 — `reading-source-time`
+- [x] C08 조회 시각이 표시된다 — `reading-fetched-at`
+- [x] C09 기준 시간대가 표시된다 — `reading-timezone` (Asia/Seoul 고정)
+- [x] C10 원자료·저장값·화면값이 일치한다 — 동일 `reading` 객체를 그대로 저장·표시
+- [ ] C22 서로 다른 실제 날짜 기록 정확히 2건 — 09-02 기록만 있음, 다음 실제 날짜 조회 필요
+- [ ] C23 두 기록의 출처URL·출처시각·값·단위가 저장값·화면값과 일치 — C22 충족 후 재확인
+- [ ] C24 두 기록을 날짜순으로 재계산한 변화값이 화면값과 일치 — C22 충족 후 재확인 (비교 로직 구현·테스트 완료)
+
+### 보안·개인정보 — source_and_runtime_scan
+- [x] C11 비밀키 원문 0건 — Open-Meteo는 API 키 불필요, 코드에 키 없음
+- [x] C25 개인정보·개인 기록 0건 — 위치명 외 개인 식별 정보 없음
+
+### 합성 재생 — deterministic_replay ("합성 재생" 탭에서 재현 가능)
+- [x] C12 느린 응답(TIMEOUT) → 별도 실패 상태
+- [x] C13 401/403(AUTH) → 별도 실패 상태
+- [x] C14 호출 제한(429) → 별도 실패 상태
+- [x] C15 오프라인 → 별도 실패 상태
+- [x] C16 형식 변경(SCHEMA-BREAK) → 별도 실패 상태
+- [x] C17 실패 뒤 마지막 정상값 안 지워짐
+- [x] C18 실패 뒤 정상값에 오래된 값 표시
+- [x] C19 재시도 → RECOVER-D2 재생 시 fresh/none, 다음 날짜 행 1건 추가
+- [x] C20 같은 날짜 중복 성공 → 기록 1건 (NORMAL-D1-A/B 시퀀스로 확인)
+- [x] C21 다음 날짜 성공 → 새 행 생성 (NORMAL-D2로 확인)
+- [x] C26 다섯 실패 재생에 합성 시험값만 사용 — fixtures/ 파일만 사용, 실제 API 호출 없음
+
+### 제출문 — submission_text
+- [ ] C27 짧은 확인 4줄 구분 — `VERIFICATION-GUIDE.md`의 "재현·통과 확인" 참고해 다듬기
+- [ ] C28 AI/직접 판단 3줄 구분 — `VERIFICATION-GUIDE.md`에서 직접 채우기 (AI가 대신 쓰지 않기)
+
+### 제출 필드 — submission_field
+- [ ] C34 결과물 URL 필드에 HTTPS 1개 — `https://gamedh823-cmd.github.io/T04/`
+- [ ] C35 소스 URL 필드에 HTTPS 1개 + 40/64자리 commit 해시 포함

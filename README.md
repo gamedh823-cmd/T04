@@ -38,6 +38,10 @@ Docker는 필요 없습니다.
 - 날씨: Open-Meteo Forecast API
 - 행정구역: mapcn-kr / admdongkor
 
+## T04 제출 문서
+- [검증안내서](VERIFICATION-GUIDE.md)
+- [체크리스트](CHECKLIST.md)
+
 
 ## 수정본
 - 홈 화면의 `현재 날씨 자세히 / 시간별 비 올 확률 / 7일 예보 보기` 바로가기 버튼 3개 제거
